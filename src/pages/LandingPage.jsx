@@ -19,39 +19,37 @@ export default function LandingPage() {
       <TopBar />
       <Navbar />
       
-      {/* Hero remains untouched with its custom load animation */}
       <Hero />
       
-      {/* The rest of the sections are wrapped in Reveal */}
-      <Reveal>
+      <Reveal direction="zoom" delay={0}>
         <CategoryBar />
       </Reveal>
 
-      <Reveal delay={100}>
+      <Reveal direction="left" delay={100}>
         <PromoBanners />
       </Reveal>
 
-      <Reveal delay={100}>
+      <Reveal direction="right" delay={100}>
         <AboutSection />
       </Reveal>
 
-      <Reveal delay={100}>
+      <Reveal direction="up" delay={100}>
         <DeliveryInfo />
       </Reveal>
 
-      <Reveal delay={100}>
+      <Reveal direction="zoom" delay={100}>
         <ProductGrid />
       </Reveal>
 
-      <Reveal delay={100}>
+      <Reveal direction="right" delay={100}>
         <Testimonials />
       </Reveal>
 
-      <Reveal delay={100}>
+      <Reveal direction="left" delay={100}>
         <BlogNews />
       </Reveal>
 
-      <Reveal delay={100}>
+      <Reveal direction="up" delay={100}>
         <Gallery />
       </Reveal>
 

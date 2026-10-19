@@ -5,8 +5,10 @@ import chefImg from '../../assets/images/chef.png';
 
 export default function Hero() {
   const heroRef = useRef(null);
+  const svgTextRef = useRef(null);
 
   useEffect(() => {
+    // 1. Text Scramble Animations
     animate('.hero-title-top', {
       innerHTML: scrambleText({ override: ' ', duration: 1500, cursor: '░▒▓█', from: 'left' }),
       opacity: [0, 1], duration: 1500, ease: 'linear',
@@ -19,11 +21,26 @@ export default function Hero() {
       innerHTML: scrambleText({ override: ' ', duration: 1200, cursor: '░▒▓', from: 'center' }),
       opacity: [0, 1], duration: 1200, delay: 300, ease: 'linear',
     });
+    
+    // 2. Element fades
     animate('.hero-btn', {
       opacity: [0, 1], translateY: [20, 0], duration: 800, delay: stagger(100, { start: 800 }), ease: 'out(3)',
     });
-    animate('.hero-img', {
+    animate('.hero-img-container', {
       opacity: [0, 1], scale: [0.9, 1], duration: 1200, delay: 500, ease: 'out(3)',
+    });
+
+    // 3. Chameleon Color Animation for the SVG Text
+    animate(svgTextRef.current, {
+      color: [
+        { to: '#e31837', duration: 1000 }, // Brand Red
+        { to: '#ffc107', duration: 1000 }, // Brand Yellow
+        { to: '#14806b', duration: 1000 }, // Jungle Green
+        { to: '#5e2e86', duration: 1000 }, // Plum
+        { to: '#e31837', duration: 1000 }, // Back to Red
+      ],
+      loop: true,
+      ease: 'linear',
     });
   }, []);
 
@@ -56,9 +73,8 @@ export default function Hero() {
 
       {/* Image Container with SVG Curved Text */}
       <div className="w-full md:w-1/2 flex justify-center md:justify-end z-10 relative">
-        <div className="hero-img relative w-[320px] h-[320px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px] flex items-center justify-center opacity-0">
+        <div className="hero-img-container relative w-[320px] h-[320px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px] flex items-center justify-center opacity-0">
           
-          {/* The Chef Image */}
           <img 
             src={chefImg} 
             alt="Foodie Chef" 
@@ -76,14 +92,18 @@ export default function Hero() {
                 d="M 200, 200 m -170, 0 a 170,170 0 1,1 340,0 a 170,170 0 1,1 -340,0" 
               />
             </defs>
-            <text className="fill-brand-dark font-black text-[26px] uppercase tracking-[0.3em]">
+            {/* Applied the ref here and updated the text */}
+            <text 
+              ref={svgTextRef} 
+              className="font-black text-[16px] uppercase tracking-[0.2em]"
+              style={{ fill: 'currentColor', color: '#e31837' }} 
+            >
               <textPath href="#text-circle" startOffset="0%">
-                Foodie • Foodie • Foodie • Foodie •
+                This site is made by warren • This site is made by warren • 
               </textPath>
             </text>
           </svg>
 
-          {/* Decorative background circle */}
           <div className="absolute inset-4 bg-brand-yellow/10 rounded-full z-0"></div>
         </div>
       </div>

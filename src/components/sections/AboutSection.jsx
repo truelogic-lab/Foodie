@@ -1,86 +1,61 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Check } from 'lucide-react';
-import { animate, utils } from 'animejs';
+import { animate } from 'animejs';
 
 export default function AboutSection() {
   const textRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const containerRef = useRef(null);
 
   useEffect(() => {
-    // Intersection Observer to trigger animation when scrolled into view
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.3 }
-    );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => {
-      if (containerRef.current) observer.unobserve(containerRef.current);
-    };
+    animate('.chameleon-text', {
+      color: [
+        { to: '#FF0055', duration: 1000 },
+        { to: '#FFD700', duration: 1000 },
+        { to: '#00E5FF', duration: 1000 },
+        { to: '#9D00FF', duration: 1000 },
+        { to: '#FF0055', duration: 1000 },
+      ],
+      textShadow: [
+        { to: '0 0 20px rgba(255,0,85,0.8)', duration: 1000 },
+        { to: '0 0 20px rgba(255,215,0,0.8)', duration: 1000 },
+        { to: '0 0 20px rgba(0,229,255,0.8)', duration: 1000 },
+        { to: '0 0 20px rgba(157,0,255,0.8)', duration: 1000 },
+        { to: '0 0 20px rgba(255,0,85,0.8)', duration: 1000 },
+      ],
+      loop: true,
+      ease: 'linear',
+    });
   }, []);
 
-  useEffect(() => {
-    if (isVisible && textRef.current) {
-      // Reset text to empty before typing
-      textRef.current.innerHTML = '';
-      
-      // Typewriter animation
-      animate(textRef.current, {
-        innerHTML: {
-          from: '',
-          to: 'Developed by warren',
-        },
-        duration: 2000,
-        ease: 'linear',
-        cursor: '█',
-      });
-    }
-  }, [isVisible]);
-
   return (
-    <section className="w-full bg-white py-16 md:py-24 px-0 md:px-8">
+    <section className="w-full bg-white py-16 md:py-24 px-0 md:px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-0 md:gap-16">
         
-        {/* Video Container with Overlay Text */}
-        <div 
-          ref={containerRef}
-          className="w-full md:w-1/2 h-[500px] md:h-[600px] relative overflow-hidden flex flex-col items-center justify-center"
-        >
+        {/* Video Container with Faded Edges */}
+        <div className="w-full md:w-1/2 h-[500px] md:h-[600px] relative overflow-hidden flex flex-col items-center justify-center">
           
-          {/* The Video (Opacity lowered slightly) */}
           <video 
             autoPlay 
             loop 
             muted 
             playsInline 
             className="absolute inset-0 w-full h-full object-cover opacity-80"
+            style={{
+              maskImage: 'radial-gradient(circle, black 50%, transparent 100%)',
+              WebkitMaskImage: 'radial-gradient(circle, black 50%, transparent 100%)',
+            }}
           >
             <source src="/about-video.mp4" type="video/mp4" />
           </video>
 
+          {/* Text Overlay */}
           <div className="relative z-10 flex flex-col items-center justify-center pointer-events-none select-none">
-            {/* The Invisible-Style Red Text */}
-            <h2 className="text-[100px] md:text-[160px] font-black text-brand-red uppercase tracking-tighter opacity-40 mix-blend-multiply leading-none mb-4">
+            <h2 
+              ref={textRef}
+              className="chameleon-text text-[100px] md:text-[160px] font-black uppercase tracking-tighter leading-none"
+              style={{ color: '#FF0055' }} 
+            >
               Foodie
             </h2>
-            
-            {/* The Typewriter Text */}
-            <p 
-              ref={textRef}
-              className="text-white text-lg md:text-2xl font-bold tracking-widest uppercase drop-shadow-lg"
-              style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}
-            >
-              Developed by warren
-            </p>
           </div>
         </div>
 
